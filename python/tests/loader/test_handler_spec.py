@@ -55,12 +55,14 @@ class TestHandlerSpec:
 
     def test_validation(self):
         """Test specification validation."""
-        # Valid specs
+        # Valid function specs
         assert HandlerSpec("model.py:func").is_valid_function_spec()
         assert HandlerSpec("module:func").is_valid_function_spec()
-        assert HandlerSpec("/health").is_valid_function_spec()
 
-        # Invalid specs
+        # Router paths are NOT function specs
+        assert not HandlerSpec("/health").is_valid_function_spec()
+
+        # Invalid function specs
         assert not HandlerSpec("no_colon").is_valid_function_spec()
         assert not HandlerSpec(":empty_module").is_valid_function_spec()
         assert not HandlerSpec("empty_func:").is_valid_function_spec()

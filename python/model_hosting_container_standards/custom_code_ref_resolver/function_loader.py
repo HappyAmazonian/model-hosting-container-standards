@@ -69,7 +69,7 @@ class FunctionLoader:
             return self._validate_callable(result, spec)
 
         except Exception as e:
-            logger.error(
+            logger.warning(
                 f"Failed to load function from spec '{spec}': {type(e).__name__}: {e}"
             )
             raise
@@ -104,7 +104,13 @@ class FunctionLoader:
             HandlerFileNotFoundError: If the file doesn't exist
             ModuleLoadError: If the module fails to load
         """
-        cache_key = f"file:{file_path}"
+        # Resolve the file path first to get the actual file location
+        file_path_obj = self.file_loader._find_file(file_path)
+        if not file_path_obj or not file_path_obj.is_file():
+            raise HandlerFileNotFoundError(file_path, self.file_loader.search_paths)
+
+        # Use the resolved absolute path for caching to avoid duplicate loads
+        cache_key = f"file:{file_path_obj.resolve()}"
 
         # Check cache first
         cached_module = self._get_cached_module(cache_key)
@@ -112,10 +118,6 @@ class FunctionLoader:
             return cached_module
 
         # Load and cache the module
-        file_path_obj = self.file_loader._find_file(file_path)
-        if not file_path_obj or not file_path_obj.is_file():
-            raise HandlerFileNotFoundError(file_path, self.file_loader.search_paths)
-
         module = self.file_loader._load_regular_module(file_path_obj)
         self._module_cache[cache_key] = module
         return module

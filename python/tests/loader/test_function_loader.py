@@ -215,5 +215,9 @@ NONE_ATTRIBUTE = None
 
         # The underlying modules should be cached (same module object)
         # We can verify this by checking that loading the same file again uses cache
-        cache_key = f"file:{absolute_path}"
+        # Note: Cache key uses resolved path to handle symlinks and relative paths consistently
+        from pathlib import Path
+
+        resolved_path = Path(absolute_path).resolve()
+        cache_key = f"file:{resolved_path}"
         assert cache_key in self.loader._module_cache
