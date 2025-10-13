@@ -6,10 +6,6 @@ class LoRAHandlerType(str, Enum):
     UNREGISTER_ADAPTER = "unregister_adapter"
     ADAPTER_HEADER_TO_BODY = "adapter_header_to_body"
 
-# Supported Engine Names
-class SupportedEngine(str, Enum):
-    VLLM = "vllm"
-
 # SageMaker API Headers for LoRA API
 class SageMakerLoRAApiHeader(str, Enum):
     ADAPTER_IDENTIFIER = "X-Amzn-SageMaker-Adapter-Identifier"
@@ -17,10 +13,16 @@ class SageMakerLoRAApiHeader(str, Enum):
 
 # Common fields to access in LoRA requests (body, path parameters, etc.)
 class RequestField(str, Enum):
-    MODEL = "model"
     ADAPTER_NAME = "adapter_name"
 
 # Response message formats
 class ResponseMessage(str, Enum):
     ADAPTER_REGISTERED = "Adapter {alias} registered"
     ADAPTER_UNREGISTERED = "Adapter {alias} unregistered"
+    ADAPTER_UPDATED = "Adapter {alias} updated"
+
+    # Errors
+    ADAPTER_NOT_FOUND = "The adapter {alias} was not found"
+    ADAPTER_INVALID_WEIGHTS = "doesn't contain tensors"
+    ADAPTER_MAX_LORA_RANK = "greater than max_lora_rank"
+    # ADAPTER_ALREADY_EXISTS = "The adapter {alias} already exists. If you want to replace it, please unregister before registering a new adapter with the same name."

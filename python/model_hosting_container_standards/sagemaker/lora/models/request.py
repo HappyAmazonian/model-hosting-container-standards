@@ -9,18 +9,18 @@ class SageMakerRegisterLoRAAdapterRequest(BaseModel):
     # pin: bool = False
     # prompt_prefix: Optional[str] = Field(default=None)
 
-    @field_validator('name', mode='after')
+    @field_validator('name', mode='before')
     @classmethod
     def validate_name(cls, value: str):
         if value == "":
-            raise ValueError("The parameter name cannot be an empty string.")
+            raise ValueError("The parameter name cannot be an empty string")
         return value
     
-    @field_validator('src', mode='after')
+    @field_validator('src', mode='before')
     @classmethod
     def validate_src(cls, value: str):
         if value == "":
-            raise ValueError("The parameter src cannot be an empty string.")
+            raise ValueError("The parameter src cannot be an empty string")
         return value
 
 
