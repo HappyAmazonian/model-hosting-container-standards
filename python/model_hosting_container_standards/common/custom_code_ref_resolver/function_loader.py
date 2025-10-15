@@ -1,12 +1,13 @@
 import logging
 from typing import Any, Callable, Dict, List, Optional
 
-from ..exceptions import (
+from model_hosting_container_standards.exceptions import (
     HandlerFileNotFoundError,
     HandlerNotCallableError,
     HandlerNotFoundError,
 )
-from ..handler_spec import HandlerSpec
+
+from ..handler.spec import HandlerSpec
 from .file_loader import FileLoader
 from .module_loader import ModuleLoader
 

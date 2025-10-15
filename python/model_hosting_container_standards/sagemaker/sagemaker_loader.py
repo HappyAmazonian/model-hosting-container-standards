@@ -12,8 +12,8 @@ Usage:
 import os
 from typing import Any, Callable, Optional, Union
 
+from ..common.handler.spec import HandlerSpec, parse_handler_spec
 from ..fastapi import EnvVars as FastAPIEnvVars
-from ..handler_spec import HandlerSpec, parse_handler_spec
 from .config import SageMakerDefaults, SageMakerEnvVars
 
 
@@ -54,7 +54,7 @@ class SageMakerFunctionLoader:
         search_paths = [script_path]
         model_file_path = os.path.join(script_path, script_filename)
 
-        from ..custom_code_ref_resolver.function_loader import FunctionLoader
+        from ..common.custom_code_ref_resolver.function_loader import FunctionLoader
 
         module_aliases = {"model": model_file_path}
         function_loader = FunctionLoader(search_paths, module_aliases)

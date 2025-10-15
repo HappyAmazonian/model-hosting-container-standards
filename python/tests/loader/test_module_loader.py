@@ -4,7 +4,9 @@ import os
 
 import pytest
 
-from model_hosting_container_standards.custom_code_ref_resolver import ModuleLoader
+from model_hosting_container_standards.common.custom_code_ref_resolver import (
+    ModuleLoader,
+)
 from model_hosting_container_standards.exceptions import (
     HandlerNotFoundError,
     ModuleLoadError,

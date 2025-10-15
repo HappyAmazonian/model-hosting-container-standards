@@ -2,8 +2,8 @@
 
 import pytest
 
+from model_hosting_container_standards.common.handler.spec import HandlerSpec
 from model_hosting_container_standards.exceptions import InvalidHandlerSpecError
-from model_hosting_container_standards.handler_spec import HandlerSpec
 
 
 class TestHandlerSpec:

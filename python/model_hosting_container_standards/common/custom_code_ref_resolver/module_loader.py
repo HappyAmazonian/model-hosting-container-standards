@@ -14,7 +14,10 @@ import importlib
 import logging
 from typing import Any, Optional
 
-from ..exceptions import HandlerNotFoundError, ModuleLoadError
+from model_hosting_container_standards.exceptions import (
+    HandlerNotFoundError,
+    ModuleLoadError,
+)
 
 logger = logging.getLogger(__name__)
 

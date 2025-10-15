@@ -6,7 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from model_hosting_container_standards.custom_code_ref_resolver import FunctionLoader
+from model_hosting_container_standards.common.custom_code_ref_resolver import (
+    FunctionLoader,
+)
 from model_hosting_container_standards.exceptions import (
     HandlerFileNotFoundError,
     HandlerNotCallableError,

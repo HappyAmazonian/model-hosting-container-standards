@@ -16,7 +16,7 @@ The FunctionLoader provides a unified interface that automatically detects
 the specification format and uses the appropriate loader.
 """
 
-from ..handler_spec import HandlerSpec, parse_handler_spec
+from ..handler.spec import HandlerSpec, parse_handler_spec
 from .file_loader import FileLoader
 from .function_loader import FunctionLoader
 from .module_loader import ModuleLoader

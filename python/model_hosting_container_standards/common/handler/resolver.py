@@ -38,12 +38,13 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Optional, Union
 
-from .exceptions import (
+from model_hosting_container_standards.exceptions import (
     HandlerFileNotFoundError,
     HandlerNotFoundError,
     HandlerResolutionError,
     InvalidHandlerSpecError,
 )
+
 from .registry import handler_registry
 
 logger = logging.getLogger(__name__)

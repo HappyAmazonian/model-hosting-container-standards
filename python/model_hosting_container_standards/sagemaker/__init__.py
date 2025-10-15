@@ -3,7 +3,7 @@
 import logging
 from typing import Any, Callable, List
 
-from ..registry import handler_registry
+from ..common.handler import handler_registry
 from ..utils import create_override_decorator, create_register_decorator
 
 # Import the real resolver functions

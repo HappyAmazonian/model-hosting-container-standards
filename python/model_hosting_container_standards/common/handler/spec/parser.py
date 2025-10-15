@@ -17,7 +17,7 @@ Router specifications:
 import re
 from typing import Optional
 
-from ..exceptions import InvalidHandlerSpecError
+from model_hosting_container_standards.exceptions import InvalidHandlerSpecError
 
 
 class HandlerSpec:

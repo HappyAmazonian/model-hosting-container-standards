@@ -37,7 +37,7 @@ class TestHandlerOverrideIntegration:
 
     def _clear_caches(self):
         """Clear handler registry and function loader cache."""
-        from model_hosting_container_standards.registry import handler_registry
+        from model_hosting_container_standards.common.handler import handler_registry
         from model_hosting_container_standards.sagemaker.sagemaker_loader import (
             SageMakerFunctionLoader,
         )

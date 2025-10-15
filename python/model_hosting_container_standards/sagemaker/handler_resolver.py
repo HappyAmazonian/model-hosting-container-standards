@@ -43,8 +43,8 @@ if ping_handler:
 import logging
 from typing import Any, Callable, Optional, Union
 
+from ..common.handler.resolver import GenericHandlerResolver, HandlerConfig
 from ..exceptions import HandlerFileNotFoundError, HandlerNotFoundError
-from ..handler_resolver import GenericHandlerResolver, HandlerConfig
 from .sagemaker_loader import SageMakerFunctionLoader
 
 logger = logging.getLogger(__name__)

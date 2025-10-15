@@ -31,7 +31,11 @@ import logging
 from pathlib import Path
 from typing import Any, List, Optional
 
-from ..exceptions import HandlerFileNotFoundError, HandlerNotFoundError, ModuleLoadError
+from model_hosting_container_standards.exceptions import (
+    HandlerFileNotFoundError,
+    HandlerNotFoundError,
+    ModuleLoadError,
+)
 
 logger = logging.getLogger(__name__)
 
