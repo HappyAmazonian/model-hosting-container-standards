@@ -1,3 +1,4 @@
+import json
 from http import HTTPStatus
 
 from fastapi import Request, Response
@@ -45,7 +46,13 @@ class RegisterLoRAApiTransform(BaseLoRAApiTransform):
         :return BaseLoRATransformRequestOutput: Validated and transformed request with adapter name
         :raises HTTPException: If request validation fails
         """
-        request_data = await raw_request.json()
+        try:
+            request_data = await raw_request.json()
+        except json.JSONDecodeError as e:
+            raise HTTPException(
+                status_code=HTTPStatus.BAD_REQUEST.value,
+                detail=f"JSON decode error: {e}",
+            ) from e
         request = validate_sagemaker_register_request(request_data)
         transformed_request = self._transform_request(request, raw_request)
         return BaseLoRATransformRequestOutput(

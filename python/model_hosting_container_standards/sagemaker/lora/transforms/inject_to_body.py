@@ -1,7 +1,8 @@
 import json
+from http import HTTPStatus
 from typing import Any, Dict
 
-from fastapi import Request, Response
+from fastapi import HTTPException, Request, Response
 
 from ....common.fastapi.utils import serialize_request
 from ....common.utils import set_value
@@ -30,7 +31,13 @@ class InjectToBodyApiTransform(BaseLoRAApiTransform):
     async def transform_request(
         self, raw_request: Request
     ) -> BaseLoRATransformRequestOutput:
-        request_data = await raw_request.json()
+        try:
+            request_data = await raw_request.json()
+        except json.JSONDecodeError as e:
+            raise HTTPException(
+                status_code=HTTPStatus.BAD_REQUEST.value,
+                detail=f"JSON decode error: {e}",
+            ) from e
         source_data = serialize_request(request_data, raw_request)
 
         for key_path, value_path in self._request_shape.items():
