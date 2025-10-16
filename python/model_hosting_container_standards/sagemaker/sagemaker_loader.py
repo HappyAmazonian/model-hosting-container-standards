@@ -159,4 +159,4 @@ class SageMakerFunctionLoader:
         return parse_handler_spec(spec_string)
 
 
-SageMakerFunctionLoader.get_function_loader()  # init to get custom script loaded
+# Defer initialization to avoid circular imports - will be called after module init

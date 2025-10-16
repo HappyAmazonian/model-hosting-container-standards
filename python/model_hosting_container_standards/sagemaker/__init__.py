@@ -1,13 +1,13 @@
 """SageMaker integration decorators."""
 
-import logging
 from typing import List
 
 from fastapi import FastAPI
 
 # Import routing utilities (generic)
 from ..common.fastapi.routing import RouteConfig
-from ..common.handler import handler_registry
+from ..common.handler.registry import handler_registry
+from ..logging_config import logger
 from ..utils import create_override_decorator, create_register_decorator
 
 # Import the real resolver functions
@@ -17,8 +17,6 @@ from .handler_resolver import get_invoke_handler, get_ping_handler
 from .lora import LoRAHandlerType, SageMakerLoRAApiHeader, create_transform_decorator
 from .sagemaker_loader import SageMakerFunctionLoader
 from .sagemaker_router import create_sagemaker_router
-
-logger = logging.getLogger(__name__)
 
 # Use resolver functions for decorators
 _get_ping_handler = get_ping_handler
@@ -115,3 +113,6 @@ __all__: List[str] = [
     "bootstrap",
     "RouteConfig",
 ]
+
+# Initialize custom script loading after all decorators are available
+SageMakerFunctionLoader.get_function_loader()  # Load custom script now that decorators are ready

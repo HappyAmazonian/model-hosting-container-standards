@@ -55,3 +55,34 @@ class HandlerFileNotFoundError(HandlerResolutionError):
         self.search_paths = search_paths
         message = f"File '{file_path}' not found in search paths: {search_paths}"
         super().__init__(message)
+
+
+# Middleware exceptions
+class MiddlewareError(Exception):
+    """Base exception for middleware-related errors."""
+
+    pass
+
+
+class MiddlewareRegistrationError(MiddlewareError):
+    """Exception raised when middleware registration fails."""
+
+    pass
+
+
+class MiddlewareNotFoundError(MiddlewareError):
+    """Exception raised when requested middleware is not found."""
+
+    pass
+
+
+class MiddlewareConfigurationError(MiddlewareError):
+    """Exception raised when middleware configuration is invalid."""
+
+    pass
+
+
+class FormatterRegistrationError(MiddlewareError):
+    """Exception raised when formatter registration fails."""
+
+    pass
