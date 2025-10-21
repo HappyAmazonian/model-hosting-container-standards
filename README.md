@@ -54,6 +54,11 @@ When contributing to this repository:
 4. Update documentation as needed
 5. Run pre-commit hooks to ensure code quality
 
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
 ## License
 
-Apache-2.0. See LICENSE.
+This project is licensed under the Apache-2.0 License.
+
