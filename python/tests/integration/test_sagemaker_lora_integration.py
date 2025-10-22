@@ -403,7 +403,6 @@ class TestLoRARequestResponseTransformation(BaseLoRAIntegrationTest):
         ):
             # Capture to verify nested transformation
             self.capture.capture("load_adapter", request, raw_request)
-            print(f"{request=}")
             return Response(
                 status_code=200,
                 content=f"name={request.adapter_config['name']},source={request.source_path}",

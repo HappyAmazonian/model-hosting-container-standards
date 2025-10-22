@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, Optional
 
 from fastapi import Request
 
@@ -49,12 +49,17 @@ def create_transform_decorator(
     """
 
     def decorator_with_params(
-        request_shape: Dict[str, Any] = {}, response_shape: Dict[str, Any] = {}
+        request_shape: Optional[Dict[str, Any]] = None,
+        response_shape: Optional[Dict[str, Any]] = None,
     ):
         """Configure the transformation shapes for the decorator.
 
-        :param Dict[str, Any] request_shape: JMESPath expressions defining request data extraction
-        :param Dict[str, Any] response_shape: JMESPath expressions defining response transformation
+        :param Optional[Dict[str, Any]] request_shape: JMESPath expressions defining request data extraction.
+            Pass None for passthrough (no transform infrastructure), or {} for transform infrastructure
+            without JMESPath transformations.
+        :param Optional[Dict[str, Any]] response_shape: JMESPath expressions defining response transformation.
+            Pass None for passthrough (no transform infrastructure), or {} for transform infrastructure
+            without JMESPath transformations.
         :return: Actual decorator function that wraps the handler
         """
 
@@ -64,8 +69,8 @@ def create_transform_decorator(
             :param Callable[..., Any] func: The handler function to wrap
             :return Callable[..., Any]: Wrapped function with transformation applied
             """
-            # if no transform shapes specified, register as passthrough handler
-            if not request_shape and not response_shape:
+            # if no transform shapes specified (None), register as passthrough handler
+            if request_shape is None and response_shape is None:
                 logger.info("No transform shapes defined, using passthrough")
                 handler_registry.set_handler(f"{handler_type}", func)
                 logger.info(
@@ -73,9 +78,12 @@ def create_transform_decorator(
                 )
                 return func
 
-            # Resolve transforms as needed
+            # Resolve transforms as needed (use empty dict if None was passed)
             transformer = _resolve_transforms(
-                handler_type, transform_resolver, request_shape, response_shape
+                handler_type,
+                transform_resolver,
+                request_shape if request_shape is not None else {},
+                response_shape if response_shape is not None else {},
             )
 
             # Create wrapped function that applies transforms
