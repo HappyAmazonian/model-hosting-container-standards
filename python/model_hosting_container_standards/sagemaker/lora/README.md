@@ -344,7 +344,7 @@ def resolve_lora_transform(handler_type: str) -> type:
 **Step 4: Add convenience function to `sagemaker/__init__.py`:**
 
 ```python
-def register_my_new_operation_handler(request_shape: dict, response_shape: dict = {}):
+def register_my_new_operation_handler(request_shape: dict, response_shape: Optional[dict] = None):
     """Convenience function for my new operation.
 
     :param request_shape: JMESPath expressions for request transformation
@@ -646,7 +646,7 @@ async def my_custom_handler(data: SimpleNamespace, raw_request: Request):
 For better user experience, add a convenience function in `sagemaker/__init__.py`:
 
 ```python
-def register_my_custom_handler(request_shape: dict, response_shape: dict = {}):
+def register_my_custom_handler(request_shape: dict, response_shape: Optional[dict] = None):
     """Convenience function for my custom operation."""
     # Add validation as needed
     return create_lora_transform_decorator(LoRAHandlerType.MY_CUSTOM_HANDLER)(

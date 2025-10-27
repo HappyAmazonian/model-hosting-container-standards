@@ -83,9 +83,12 @@ class BaseApiTransform(abc.ABC):
             logger.debug("Passing transformed request data and raw request to handler")
             # Pass both transformed data and original request for context
             # Convert dict to SimpleNamespace for attribute access
-            response = await func_to_call(
-                SimpleNamespace(**transformed_request), transformed_raw_request
+            transformed_request = (
+                SimpleNamespace(**transformed_request)
+                if isinstance(transformed_request, dict)
+                else transformed_request
             )
+            response = await func_to_call(transformed_request, transformed_raw_request)
         return response
 
     @abc.abstractmethod

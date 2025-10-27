@@ -1,6 +1,6 @@
 """SageMaker integration decorators."""
 
-from typing import List
+from typing import List, Optional
 
 from fastapi import FastAPI
 
@@ -20,6 +20,7 @@ from .lora import (
 )
 from .sagemaker_loader import SageMakerFunctionLoader
 from .sagemaker_router import create_sagemaker_router
+from .sessions import create_session_transform_decorator
 
 # SageMaker decorator instances - created using utility functions
 
@@ -31,7 +32,9 @@ custom_invocation_handler = override_handler("invoke")
 
 
 # Transform decorators - for LoRA handling
-def register_load_adapter_handler(request_shape: dict, response_shape: dict = {}):
+def register_load_adapter_handler(
+    request_shape: dict, response_shape: Optional[dict] = None
+):
     # TODO: validate and preprocess request shape
     # TODO: validate and preprocess response shape
     return create_lora_transform_decorator(LoRAHandlerType.REGISTER_ADAPTER)(
@@ -39,7 +42,9 @@ def register_load_adapter_handler(request_shape: dict, response_shape: dict = {}
     )
 
 
-def register_unload_adapter_handler(request_shape: dict, response_shape: dict = {}):
+def register_unload_adapter_handler(
+    request_shape: dict, response_shape: Optional[dict] = None
+):
     # TODO: validate and preprocess request shape
     # TODO: validate and preprocess response shape
     return create_lora_transform_decorator(LoRAHandlerType.UNREGISTER_ADAPTER)(
@@ -80,8 +85,21 @@ def inject_adapter_id(adapter_path: str):
         f'headers."{SageMakerLoRAApiHeader.ADAPTER_IDENTIFIER}"'
     )
     return create_lora_transform_decorator(LoRAHandlerType.INJECT_ADAPTER_ID)(
-        request_shape=request_shape, response_shape={}
+        request_shape=request_shape, response_shape=None
     )
+
+
+def stateful_session_manager():
+    """Create a decorator for session-based sticky routing.
+
+    This decorator enables stateful session management without JMESPath transformations.
+    Pass empty dicts to enable transform infrastructure (for intercept functionality)
+    without requiring JMESPath expressions.
+
+    Returns:
+        A decorator that can be applied to route handlers to enable session management
+    """
+    return create_session_transform_decorator()(request_shape={}, response_shape={})
 
 
 def bootstrap(app: FastAPI) -> FastAPI:
