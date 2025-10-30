@@ -234,7 +234,8 @@ class TestProcessSessionRequest:
             "model_hosting_container_standards.sagemaker.sessions.transform._validate_session_if_present"
         ) as mock_validate:
             mock_validate.side_effect = HTTPException(
-                status_code=HTTPStatus.BAD_REQUEST, detail="Session validation failed"
+                status_code=HTTPStatus.BAD_REQUEST.value,
+                detail="Session validation failed",
             )
 
             with pytest.raises(HTTPException) as exc_info:
